@@ -2,15 +2,7 @@ loadAPI(1);
 
 host.defineController("Korg", "nanoKONTROL Studio", "1.0", "77C5C940-E926-11E8-B568-0800200C9A66");
 host.defineMidiPorts(1, 1);
-//host.defineSysexIdentityReply("f0 7e ?? 06 02 42 13 01 00 00 03 00 01 00 f7");
 
-/*if (host.platformIsWindows())
-	host.addDeviceNameBasedDiscoveryPair(["nanoKONTROLStudio"], ["nanoKONTROLStudio"]);
-else if (host.platformIsMac())
-	host.addDeviceNameBasedDiscoveryPair(["nanoKONTROL2 SLIDERS/KNOBS"], ["nanoKONTROL2 CTRL"]);
-else if (host.platformIsLinux())
-        host.addDeviceNameBasedDiscoveryPair(["nanoKONTROL2 MIDI 1"], ["nanoKONTROL2 MIDI 1"]);
-*/
 var SYSEX_HEADER = "F0 42 40 00 01 13 00";
 var SILENT = false;
 
@@ -186,7 +178,7 @@ function checkLedOutput(cc)
 {
    if (pendingLedState[cc] != outputLedState[cc])
    {
-      sendChannelController(15, cc, pendingLedState[cc]);
+      sendChannelController(176, cc, pendingLedState[cc]);
       outputLedState[cc] = pendingLedState[cc];
    }
 }
@@ -285,6 +277,32 @@ function onMidi(status, data1, data2)
 			}
 			else if (withinRange(cc, CC.R1, CC.R8))
 			{
+				switch (data1){
+					case 38:
+						index = 0;
+						break;
+					case 39:
+						index = 1;
+						break;
+					case 40:
+						index = 2;
+						break;
+					case 41:
+						index = 3;
+						break;					
+					case 42:
+						index = 4;
+						break;						
+					case 43:
+						index = 5;
+						break;		
+					case 44:
+						index = 6;
+						break;		
+					case 45:
+						index = 7;
+						break;		
+				}
 				activePage.rButton(index);
 			}
 
